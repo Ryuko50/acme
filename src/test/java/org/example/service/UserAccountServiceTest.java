@@ -3,7 +3,7 @@ package org.example.service;
 
 import lombok.SneakyThrows;
 import org.example.dto.UserDto;
-import org.example.model.User;
+import org.example.model.UserAccount;
 import org.example.repository.UserRepository;
 import org.example.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserAccountServiceTest {
 
     @InjectMocks
     UserService userService;
@@ -35,9 +35,9 @@ public class UserServiceTest {
     @Test
     @SneakyThrows
     void shouldReturnUserWhenIdExists(){
-        User mockUser = new User();
+        UserAccount mockUserAccount = new UserAccount();
         UserDto mockUserDto = UserDto.builder().id(2L).name("pepito").password("123").build();
-        when(userRepository.findById(any())).thenReturn(Optional.of(mockUser));
+        when(userRepository.findById(any())).thenReturn(Optional.of(mockUserAccount));
         when(modelMapper.map(any(), any())).thenReturn(mockUserDto);
 
         UserDto res = userService.getUser(2L);
@@ -56,11 +56,11 @@ public class UserServiceTest {
     @Test
     @SneakyThrows
     void shouldSaveUserWhenUserNoExists(){
-        User mockUser = new User();
+        UserAccount mockUserAccount = new UserAccount();
         UserDto mockUserDto = UserDto.builder().name("pepito").password("123").build();
 
-        when(modelMapper.map(any(), any())).thenReturn(mockUser);
-        when(userRepository.save(any())).thenReturn(mockUser);
+        when(modelMapper.map(any(), any())).thenReturn(mockUserAccount);
+        when(userRepository.save(any())).thenReturn(mockUserAccount);
 
         userService.saveOrUpdate(mockUserDto);
 
@@ -71,7 +71,7 @@ public class UserServiceTest {
     @Test
     @SneakyThrows
     void shouldThrowExceptionWhenIdExists(){
-        User mockUser = new User();
+        UserAccount mockUserAccount = new UserAccount();
         UserDto mockUserDto = UserDto.builder().id(2L).name("pepito").password("123").build();
 
         when(userRepository.existsById(any())).thenReturn(false);
@@ -92,12 +92,12 @@ public class UserServiceTest {
     @Test
     @SneakyThrows
     void shouldUpdateUserWhenIdExists() {
-        User mockUser = new User();
+        UserAccount mockUserAccount = new UserAccount();
         UserDto mockUserDto = UserDto.builder().id(2L).name("pepito").password("123").build();
 
         when(userRepository.existsById(any())).thenReturn(true);
-        when(modelMapper.map(any(), any())).thenReturn(mockUser);
-        when(userRepository.save(any())).thenReturn(mockUser);
+        when(modelMapper.map(any(), any())).thenReturn(mockUserAccount);
+        when(userRepository.save(any())).thenReturn(mockUserAccount);
 
 
         userService.saveOrUpdate(mockUserDto);

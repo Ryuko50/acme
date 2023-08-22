@@ -1,13 +1,11 @@
 package org.example.services;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.UserDto;
-import org.example.model.User;
+import org.example.model.UserAccount;
 import org.example.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -46,7 +44,7 @@ public class UserService {
         if(!Objects.isNull(user.getId()) && !userRepository.existsById(user.getId())) {
             throw new Exception("No se puede actualizar el usuario porque no existe un usuario con id=" + user.getId());
         }
-        userRepository.save(mapper.map(user, User.class));
+        userRepository.save(mapper.map(user, UserAccount.class));
     }
     public void  deleteUser(Long id) throws Exception {
         if(!userRepository.existsById(id)){
